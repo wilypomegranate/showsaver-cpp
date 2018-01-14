@@ -1,4 +1,5 @@
 #include "dvb/Frontend.hpp"
+#include "dvb/atsc/types/SystemTimeTableParser.hpp"
 #include <libdvbv5/atsc_header.h>
 #include <unistd.h>
 

@@ -25,12 +25,29 @@ void Epg::open(int adapter_number) {
   if (ioctl(demux_device_, DMX_SET_FILTER, &sct_param) < 0) {
     throw DvbException(errno, std::system_category());
   }
-  char buf[1];
+  atsc::SystemTimeTableParser stt;
+  std::vector<unsigned char> buf;
+  // buf.resize(10);
   ssize_t size = 0;
+  std::size_t s = 10;
+  buf.resize(10);
   while (true) {
-    size = read(demux_device_, buf, 10);
+    size = read(demux_device_, &(*(buf.end() - s)), s);
     if (size > 0) {
-      std::cout << buf << std::endl;
+      // std::cout << size << "\n";
+      // std::cout.write(reinterpret_cast<const char *>(buf.data()), 10-s);
+      if (s < 10) {
+        s = stt.parse(*this, buf.data() + s, buf.size());
+      }
+      else {
+        s = stt.parse(*this, buf.data(), buf.size());
+      }
+      // buf.erase(buf.begin(), buf.begin()+s);
+      if (s == 0) {
+        s = 10;
+      }
+      // std::cout << buf.size() << std::endl;
+      // std::cout << std::endl;
     }
   }
 }
