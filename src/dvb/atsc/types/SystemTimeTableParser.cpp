@@ -5,7 +5,7 @@ namespace showsaver {
 namespace dvb {
 namespace atsc {
 SystemTimeTableParser::SystemTimeTableParser()
-    : current_pos_(0), parse_buffer_(), table_() {}
+  : current_pos_(0), parse_buffer_(), table_(), section_length_(0) {}
 
 // template <class T>
 // std::size_t

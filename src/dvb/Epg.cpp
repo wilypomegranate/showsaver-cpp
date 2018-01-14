@@ -30,17 +30,17 @@ void Epg::open(int adapter_number) {
   std::vector<unsigned char> buf;
   // buf.resize(10);
   ssize_t size = 0;
-  std::size_t s = 10;
-  buf.resize(10);
+  std::size_t s = 20;
+  buf.resize(20);
   while (true) {
     size = read(demux_device_, buf.data(), buf.size());
     if (size > 0) {
       // std::cout << size << "\n";
-      std::cout.write(reinterpret_cast<const char *>(buf.data()), buf.size());
-        // s = stt.parse(*this, buf.data(), buf.size());
+      // std::cout.write(reinterpret_cast<const char *>(buf.data()), buf.size());
+        s = stt.parse(*this, buf.data(), buf.size());
       // buf.erase(buf.begin(), buf.begin()+s);
       // std::cout << buf.size() << std::endl;
-      std::cout << std::endl;
+      // std::cout << std::endl;
     }
   }
 }
