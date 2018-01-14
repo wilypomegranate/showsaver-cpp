@@ -5,7 +5,7 @@ namespace showsaver {
 namespace dvb {
 namespace atsc {
 SystemTimeTableParser::SystemTimeTableParser()
-    : current_pos_(0), num_held_bytes_(0) {}
+    : current_pos_(0), parse_buffer_(), table_() {}
 
 // template <class T>
 // std::size_t
@@ -62,6 +62,28 @@ SystemTimeTableParser::parse_table_id_extension(const unsigned char *buffer,
     parsed_bytes += 2;
   }
   return parsed_bytes;
+}
+
+std::size_t
+SystemTimeTableParser::parse_version_number(const unsigned char *buffer,
+                                            std::size_t size) {
+  std::size_t parsed_bytes = 0;
+  if (size > 0) {
+    std::uint8_t version_number = buffer[0];
+    std::cout << version_number << std::endl;
+    parsed_bytes += 1;
+  }
+  return parsed_bytes;
+}
+
+std::size_t SystemTimeTableParser::parse_function(
+    std::function<std::size_t(const unsigned char *, std::size_t)> func,
+    std::size_t &clear_bytes) {
+  std::size_t bytes_parsed = func(parse_buffer_.data() + clear_bytes,
+                                  parse_buffer_.size() - clear_bytes);
+  clear_bytes += bytes_parsed;
+  current_pos_ += bytes_parsed;
+  return bytes_parsed;
 }
 }
 }

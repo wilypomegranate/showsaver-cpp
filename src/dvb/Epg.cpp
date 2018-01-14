@@ -3,6 +3,7 @@
 
 namespace showsaver {
 namespace dvb {
+const int ATSC_BASE_PID = 0x1FFB;
 Epg::Epg() {}
 
 Epg::Epg(int adapter_number) { open(adapter_number); }
@@ -32,22 +33,14 @@ void Epg::open(int adapter_number) {
   std::size_t s = 10;
   buf.resize(10);
   while (true) {
-    size = read(demux_device_, &(*(buf.end() - s)), s);
+    size = read(demux_device_, buf.data(), buf.size());
     if (size > 0) {
       // std::cout << size << "\n";
-      // std::cout.write(reinterpret_cast<const char *>(buf.data()), 10-s);
-      if (s < 10) {
-        s = stt.parse(*this, buf.data() + s, buf.size());
-      }
-      else {
-        s = stt.parse(*this, buf.data(), buf.size());
-      }
+      std::cout.write(reinterpret_cast<const char *>(buf.data()), buf.size());
+        // s = stt.parse(*this, buf.data(), buf.size());
       // buf.erase(buf.begin(), buf.begin()+s);
-      if (s == 0) {
-        s = 10;
-      }
       // std::cout << buf.size() << std::endl;
-      // std::cout << std::endl;
+      std::cout << std::endl;
     }
   }
 }
