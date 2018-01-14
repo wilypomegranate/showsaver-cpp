@@ -1,6 +1,6 @@
 #include "dvb/atsc/types/SystemTimeTable.hpp"
-#include <iostream>
 #include <cassert>
+#include <iostream>
 
 namespace showsaver {
 namespace dvb {
@@ -56,14 +56,19 @@ std::uint16_t SystemTimeTable::init(const std::vector<unsigned char> &buffer,
   // section_length from the size of the rest of data after section length.
   // This size is 17.
 
-
   // TODO - put these types of constants somewhere.
   std::uint16_t descriptor_length = section_length - STT_DESCRIPTOR_MIN_LENGTH;
   // There's nothing right now to do with descriptors of STT messages.
   parsed_bytes += descriptor_length;
 
-  crc_ = buffer[parsed_bytes];
+  crc_ = buffer[parsed_bytes] << 24;
+  crc_ |= buffer[parsed_bytes + 1] << 16;
+  crc_ |= buffer[parsed_bytes + 2] << 8;
+  crc_ |= buffer[parsed_bytes + 3];
+
+  std::cout << dvb::utils::validate_crc_32(buffer.data(), parsed_bytes, crc_) << std::endl;
   parsed_bytes += 4;
+
 
   return parsed_bytes;
 }

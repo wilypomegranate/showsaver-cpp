@@ -1,6 +1,7 @@
 #include <bitset>
 #include <cstdint>
 #include <vector>
+#include "dvb/utils/ParserUtils.hpp"
 
 namespace showsaver {
 namespace dvb {
