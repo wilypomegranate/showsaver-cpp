@@ -21,7 +21,7 @@ public:
 
     if (section_length_ > 0 && parse_buffer_.size() >= section_length_) {
       std::size_t size = table_.init(parse_buffer_, section_length_);
-      clear_parsed_bytes(size);
+      // clear_parsed_bytes(size);
     }
 
     return 0;

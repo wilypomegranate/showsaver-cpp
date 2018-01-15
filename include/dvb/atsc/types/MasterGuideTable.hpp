@@ -9,21 +9,23 @@ namespace atsc {
 class PsipTable {
 public:
   PsipTable();
+  std::uint16_t init(const std::vector<unsigned char> &);
 
 private:
   std::uint16_t table_type_;
   std::bitset<3> reserved_;
-  std::bitset<13> table_type_pid_;
+  std::uint16_t table_type_pid_;
   std::bitset<3> reserved2_;
   std::bitset<5> table_type_version_number_;
   std::uint32_t num_bytes_;
   std::bitset<4> reserved3_;
-  std::bitset<12> table_type_descriptors_length_;
+  std::uint16_t table_type_descriptors_length_;
 };
 class MasterGuideTable {
 public:
   MasterGuideTable();
   std::uint16_t init(const std::vector<unsigned char> &, const std::uint16_t);
+  std::uint16_t add_psip_table(const std::vector<unsigned char>&);
 
 private:
   std::uint8_t table_id_;
@@ -41,7 +43,7 @@ private:
   std::uint16_t tables_defined_;
   std::vector<PsipTable> tables_;
   std::bitset<4> reserved3_;
-  std::bitset<12> descriptors_length_;
+  std::uint16_t descriptors_length_;
   std::uint32_t crc_;
 };
 }

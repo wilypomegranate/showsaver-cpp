@@ -13,7 +13,8 @@ std::uint16_t SystemTimeTable::init(const std::vector<unsigned char> &buffer,
   table_id_ = buffer[parsed_bytes];
   parsed_bytes += 1;
 
-  section_length_ = (buffer[parsed_bytes] << 8 | buffer[parsed_bytes + 1]);
+  section_length_ = (std::uint16_t(buffer[parsed_bytes] << 8) | buffer[parsed_bytes + 1]);
+  section_length_ &= 0xFFF;
   parsed_bytes += 2;
 
   table_id_extension_ = buffer[parsed_bytes];
