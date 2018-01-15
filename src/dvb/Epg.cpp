@@ -18,7 +18,7 @@ void Epg::open(int adapter_number) {
   sct_param.pid = ATSC_BASE_PID;
   sct_param.flags = DMX_IMMEDIATE_START;
   sct_param.timeout = 0;
-  int chan_filter = 0xcd;
+  int chan_filter = 0xc7;
   int chan_filter_mask = 0xff;
   sct_param.filter.filter[0] = chan_filter;
   sct_param.filter.mask[0] = chan_filter_mask;
@@ -27,6 +27,7 @@ void Epg::open(int adapter_number) {
     throw DvbException(errno, std::system_category());
   }
   atsc::SystemTimeTableParser stt;
+  atsc::MasterGuideTableParser mgt;
   std::vector<unsigned char> buf;
   // buf.resize(10);
   ssize_t size = 0;
@@ -37,7 +38,7 @@ void Epg::open(int adapter_number) {
     if (size > 0) {
       // std::cout << size << "\n";
       // std::cout.write(reinterpret_cast<const char *>(buf.data()), buf.size());
-        s = stt.parse(*this, buf.data(), buf.size());
+        s = mgt.parse(*this, buf.data(), buf.size());
       // buf.erase(buf.begin(), buf.begin()+s);
       // std::cout << buf.size() << std::endl;
       // std::cout << std::endl;
