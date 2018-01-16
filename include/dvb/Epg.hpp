@@ -12,6 +12,7 @@ public:
   Epg();
   Epg(int adapter_number);
   void open(int adapter_number);
+  void operator()(const atsc::MasterGuideTable& mgt);
 
 private:
   int demux_device_;

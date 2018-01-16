@@ -26,6 +26,9 @@ public:
   MasterGuideTable();
   std::uint16_t init(const std::vector<unsigned char> &, const std::uint16_t);
   std::uint16_t add_psip_table(const std::vector<unsigned char>&);
+  std::uint32_t crc() const {
+    return crc_;
+  }
 
 private:
   std::uint8_t table_id_;

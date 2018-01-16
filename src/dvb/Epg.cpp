@@ -39,12 +39,16 @@ void Epg::open(int adapter_number) {
     if (size > 0) {
       // std::cout << size << "\n";
       // std::cout.write(reinterpret_cast<const char *>(buf.data()), buf.size());
-        s = eit.parse(*this, buf.data(), buf.size());
+        s = mgt.parse(*this, buf.data(), buf.size());
       // buf.erase(buf.begin(), buf.begin()+s);
       // std::cout << buf.size() << std::endl;
       // std::cout << std::endl;
     }
   }
+}
+
+void Epg::operator()(const atsc::MasterGuideTable& mgt) {
+  std::cout << mgt.crc() << std::endl;
 }
 }
 }

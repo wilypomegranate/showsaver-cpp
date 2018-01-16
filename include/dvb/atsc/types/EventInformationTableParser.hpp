@@ -19,7 +19,8 @@ public:
       section_length_ &= 0xFFF;
     }
     if (section_length_ > 0 && parse_buffer_.size() >= section_length_) {
-      table_.init(parse_buffer_, section_length_);
+      std::size_t size = table_.init(parse_buffer_, section_length_);
+      clear_parsed_bytes(size);
     }
     return 0;
   }
@@ -28,6 +29,11 @@ private:
   std::vector<unsigned char> parse_buffer_;
   std::uint16_t section_length_;
   EventInformationTable table_;
+
+  void clear_parsed_bytes(std::size_t bytes_parsed) {
+    parse_buffer_.erase(parse_buffer_.begin(),
+                        parse_buffer_.begin() + bytes_parsed);
+  }
 };
 }
 }
