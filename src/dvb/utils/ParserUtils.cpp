@@ -73,6 +73,33 @@ bool validate_crc_32(const unsigned char *buffer, std::size_t size,
   // }
   // return false;
 }
+
+std::uint16_t parse_header(const std::vector<unsigned char> &buffer,
+                           std::uint8_t &table_id,
+                           std::uint16_t &section_length) {
+  std::uint16_t parsed_bytes = 0;
+
+  table_id = buffer[parsed_bytes];
+  parsed_bytes += 1;
+
+  section_length = buffer[parsed_bytes] << 8;
+  section_length |= buffer[parsed_bytes + 1];
+  parsed_bytes += 2;
+
+  return parsed_bytes;
+}
+
+  void parse_uint16_t(std::vector<unsigned char>::const_iterator position, std::uint16_t& data) {
+  data = *position << 8;
+  data |= *(position+1);
+}
+
+  void parse_uint32_t(std::vector<unsigned char>::const_iterator position, std::uint32_t& data) {
+    data = *position << 24;
+    data |= *(position+1) << 16;
+    data |= *(position+2) << 8;
+    data |= *(position+3);
+}
 }
 }
 }

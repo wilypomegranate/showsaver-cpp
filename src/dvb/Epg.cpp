@@ -28,6 +28,7 @@ void Epg::open(int adapter_number) {
   }
   atsc::SystemTimeTableParser stt;
   atsc::MasterGuideTableParser mgt;
+  atsc::EventInformationTableParser eit;
   std::vector<unsigned char> buf;
   // buf.resize(10);
   ssize_t size = 0;
@@ -38,7 +39,7 @@ void Epg::open(int adapter_number) {
     if (size > 0) {
       // std::cout << size << "\n";
       // std::cout.write(reinterpret_cast<const char *>(buf.data()), buf.size());
-        s = mgt.parse(*this, buf.data(), buf.size());
+        s = eit.parse(*this, buf.data(), buf.size());
       // buf.erase(buf.begin(), buf.begin()+s);
       // std::cout << buf.size() << std::endl;
       // std::cout << std::endl;

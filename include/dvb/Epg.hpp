@@ -1,6 +1,7 @@
 #include "dvb/Frontend.hpp"
 #include "dvb/atsc/types/SystemTimeTableParser.hpp"
 #include "dvb/atsc/types/MasterGuideTableParser.hpp"
+#include "dvb/atsc/types/EventInformationTableParser.hpp"
 // #include <libdvbv5/atsc_header.h>
 #include <unistd.h>
 
