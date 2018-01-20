@@ -95,10 +95,11 @@ std::uint16_t parse_header(const std::vector<unsigned char> &buffer,
 }
 
   void parse_uint32_t(std::vector<unsigned char>::const_iterator position, std::uint32_t& data) {
-    data = *position << 24;
-    data |= *(position+1) << 16;
-    data |= *(position+2) << 8;
-    data |= *(position+3);
+    data = *position;
+    data = data << 24;
+    data |= (std::uint32_t)(*(position+1)) << 16;
+    data |= (std::uint32_t)(*(position+2)) << 8;
+    data |= (std::uint32_t)(*(position+3));
 }
 }
 }

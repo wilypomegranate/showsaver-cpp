@@ -19,10 +19,21 @@ public:
       section_length_ &= 0xFFF;
     }
 
-    if (section_length_ > 0 && parse_buffer_.size() >= section_length_) {
-      std::size_t size = table_.init(parse_buffer_, section_length_);
-      clear_parsed_bytes(size);
-      callback_class(table_);
+    if (section_length_ > 0 && parse_buffer_.size() >= section_length_ + 3) {
+      // Validate crc before doing anything here.
+      // Otherwise acting on bad data could have undefined behavior.
+      // The crc's are the last 4 bytes of the section.
+      std::uint32_t crc = 0;
+      utils::parse_uint32_t(parse_buffer_.begin() + ((section_length_+3) - 4),
+                            crc);
+      bool valid = utils::validate_crc_32(parse_buffer_.data(),
+                                          parse_buffer_.size() - 4, crc);
+      if (valid) {
+
+        std::size_t size = table_.init(parse_buffer_, section_length_);
+        clear_parsed_bytes(size);
+        callback_class(table_);
+      }
     }
 
     return 0;
