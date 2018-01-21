@@ -14,11 +14,14 @@ find_package(PkgConfig REQUIRED)
 
 include_directories(
   "include"
+  thirdparty/catch2/include
   )
 
 add_executable(tuner src/tuner/main.cpp src/dvb/Frontend.cpp)
 add_executable(record src/record/main.cpp src/dvb/Frontend.cpp src/dvb/Record.cpp)
 add_executable(program_guide src/program_guide/main.cpp src/dvb/Epg.cpp src/dvb/Frontend.cpp src/dvb/utils/ParserUtils.cpp src/dvb/atsc/types/SystemTimeTable.cpp src/dvb/atsc/types/SystemTimeTableParser.cpp src/dvb/atsc/types/MasterGuideTable.cpp src/dvb/atsc/types/EventInformationTable.cpp)
+
+add_executable(tests tests/main.cpp tests/dvb/atsc/types/MultipleStringStructureTest.cpp src/dvb/atsc/types/MultipleStringStructure.cpp src/dvb/utils/ParserUtils.cpp)
 
 target_link_libraries(
   record

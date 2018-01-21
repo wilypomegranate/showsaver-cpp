@@ -19,7 +19,18 @@ public:
       section_length_ &= 0xFFF;
     }
     if (section_length_ > 0 && parse_buffer_.size() >= section_length_) {
-      std::size_t size = table_.init(parse_buffer_, section_length_);
+
+      std::uint32_t crc = 0;
+      utils::parse_uint32_t(parse_buffer_.begin() + ((section_length_+3) - 4),
+                            crc);
+      bool valid = utils::validate_crc_32(parse_buffer_.data(),
+                                          ((section_length_+3) - 4),
+                                          crc);
+      std::size_t size = section_length_+3;
+      if (valid) {
+        table_.init(parse_buffer_, section_length_+3);
+        callback_class(table_);
+      }
       clear_parsed_bytes(size);
     }
     return 0;

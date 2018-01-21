@@ -1,4 +1,5 @@
 #include "dvb/atsc/types/EventInformationTable.hpp"
+#include <iostream>
 
 namespace showsaver {
 namespace dvb {
@@ -14,6 +15,8 @@ EventInformationTable::EventInformationTable() {}
   utils::parse_uint16_t(buffer.begin()+parsed_bytes, event_id_);
   event_id_ &= 0x3FFF;
 
+  parsed_bytes += 2;
+
   utils::parse_uint32_t(buffer.begin()+parsed_bytes, start_time_);
   parsed_bytes += 4;
 
@@ -28,7 +31,9 @@ EventInformationTable::EventInformationTable() {}
   title_length_ = buffer[parsed_bytes];
   parsed_bytes += 1;
 
-  title_text_ = std::string(parsed_bytes, title_length_);
+  // std::cout.write(reinterpret_cast<const char *>(buffer.data()+parsed_bytes), title_length_);
+  // std::cout << std::endl;
+  title_text_ = std::string(buffer.begin()+parsed_bytes, buffer.begin()+parsed_bytes+title_length_);
   parsed_bytes += title_length_;
 
   reserved3_ = buffer[parsed_bytes] << 4;
@@ -85,6 +90,7 @@ std::uint16_t EventInformationTable::add_event_section(const std::vector<unsigne
   EventInformationSection section;
   std::uint16_t parsed_bytes = section.init(buffer);
   sections_.push_back(section);
+  return parsed_bytes;
   }
 }
 }

@@ -8,7 +8,8 @@ int main(int argc, char **argv) {
   try {
     f.open(0);
     // f.tune(575000000);
-    f.tune(593000000);
+    // f.tune(593000000);
+    f.tune(545000000);
     // f.tune(85000000);
     dvb::Epg epg(0);
   } catch (std::exception &ex) {

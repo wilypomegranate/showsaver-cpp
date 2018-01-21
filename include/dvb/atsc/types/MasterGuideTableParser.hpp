@@ -1,4 +1,5 @@
 #include "dvb/atsc/types/MasterGuideTable.hpp"
+#include <iostream>
 
 namespace showsaver {
 namespace dvb {
@@ -27,13 +28,14 @@ public:
       utils::parse_uint32_t(parse_buffer_.begin() + ((section_length_+3) - 4),
                             crc);
       bool valid = utils::validate_crc_32(parse_buffer_.data(),
-                                          parse_buffer_.size() - 4, crc);
+                                          ((section_length_+3) - 4),
+                                          crc);
+      std::size_t size = section_length_+3;
       if (valid) {
-
-        std::size_t size = table_.init(parse_buffer_, section_length_);
-        clear_parsed_bytes(size);
+        table_.init(parse_buffer_, section_length_+3);
         callback_class(table_);
       }
+      clear_parsed_bytes(size);
     }
 
     return 0;

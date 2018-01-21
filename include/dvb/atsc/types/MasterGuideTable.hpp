@@ -10,6 +10,8 @@ class PsipTable {
 public:
   PsipTable();
   std::uint16_t init(const std::vector<unsigned char> &);
+  std::uint16_t table_type() const {return table_type_;}
+  std::uint16_t table_type_pid() const {return table_type_pid_;}
 
 private:
   std::uint16_t table_type_;
@@ -29,6 +31,7 @@ public:
   std::uint32_t crc() const {
     return crc_;
   }
+  std::vector<PsipTable> tables() const {return tables_;}
 
 private:
   std::uint8_t table_id_;

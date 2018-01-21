@@ -13,8 +13,11 @@ public:
   Epg(int adapter_number);
   void open(int adapter_number);
   void operator()(const atsc::MasterGuideTable& mgt);
+  void operator()(const atsc::EventInformationTable& eit);
 
 private:
+  std::vector<atsc::PsipTable> eit_tables_;
+  bool got_mgt_;
   int demux_device_;
 };
 }
