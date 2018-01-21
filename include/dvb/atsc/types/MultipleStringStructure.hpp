@@ -13,7 +13,7 @@ public:
   std::uint16_t init(const std::vector<unsigned char>&);
 
 private:
-  std::vector<std::string> strings_;
+  std::string text_;
 };
 } // namespace atsc
 } // namespace dvb

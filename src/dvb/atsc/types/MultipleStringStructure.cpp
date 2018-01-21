@@ -36,7 +36,7 @@ MultipleStringStructure::init(const std::vector<unsigned char>& buffer) {
       if (number_bytes > 0) {
         std::string tmp(buffer.begin() + parsed_bytes,
                         buffer.begin() + parsed_bytes + number_bytes);
-        strings_.push_back(tmp);
+        text_.append(tmp);
       }
     }
   }
