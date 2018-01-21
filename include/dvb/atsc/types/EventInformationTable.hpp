@@ -1,4 +1,5 @@
 #include "dvb/utils/ParserUtils.hpp"
+#include "dvb/atsc/types/MultipleStringStructure.hpp"
 #include <bitset>
 #include <cstdint>
 #include <string>

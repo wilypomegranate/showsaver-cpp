@@ -85,8 +85,8 @@ void Epg::open(int adapter_number) {
       throw DvbException(errno, std::system_category());
     }
 
-    // std::cout << table.table_type() << "\t" << table.table_type_pid()
-    //           << std::endl;
+    std::cout << table.table_type() << "\t" << table.table_type_pid()
+              << std::endl;
     // for (int i = 0; i < 10000; i++) {
     size = 0;
     errno = 0;

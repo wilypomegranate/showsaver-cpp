@@ -34,8 +34,11 @@ EventInformationSection::init(const std::vector<unsigned char>& buffer) {
 
   // std::cout.write(reinterpret_cast<const char *>(buffer.data()+parsed_bytes),
   // title_length_); std::cout << std::endl;
-  title_text_ = std::string(buffer.begin() + parsed_bytes,
-                            buffer.begin() + parsed_bytes + title_length_);
+  MultipleStringStructure mss;
+  mss.init(std::vector<unsigned char>(buffer.begin() + parsed_bytes,
+                                      buffer.begin() + parsed_bytes +
+                                          title_length_));
+  title_text_ = mss.text();
   parsed_bytes += title_length_;
 
   reserved3_ = buffer[parsed_bytes] << 4;
