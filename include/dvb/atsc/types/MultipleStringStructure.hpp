@@ -11,6 +11,9 @@ class MultipleStringStructure {
 public:
   MultipleStringStructure();
   std::uint16_t init(const std::vector<unsigned char>&);
+  std::string text() const {
+    return text_;
+  }
 
 private:
   std::string text_;

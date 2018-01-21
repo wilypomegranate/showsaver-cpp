@@ -14,5 +14,5 @@ TEST_CASE("MultipleStringStructure", "[MultipleStringStructure]") {
   std::vector<unsigned char> buffer(text, text + text_len);
   atsc::MultipleStringStructure m;
   m.init(buffer);
-  // REQUIRE(1 == 2);
+  REQUIRE(m.text() == "Paid Programming");
 }
