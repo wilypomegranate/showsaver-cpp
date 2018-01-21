@@ -4,9 +4,9 @@
 namespace showsaver {
 namespace dvb {
 const int ATSC_BASE_PID = 0x1FFB;
-Epg::Epg() : got_mgt_(false) {}
+Epg::Epg() : got_mgt_(false), got_eit_(false) {}
 
-Epg::Epg(int adapter_number) : got_mgt_(false) {
+Epg::Epg(int adapter_number) : got_mgt_(false), got_eit_(false) {
   open(adapter_number);
 }
 
@@ -91,7 +91,7 @@ void Epg::open(int adapter_number) {
     size = 0;
     errno = 0;
     buf.resize(20);
-    while (errno != ETIMEDOUT) {
+    while (errno != ETIMEDOUT && !got_eit_) {
       size = read(demux_device_, buf.data(), buf.size());
       if (size > 0) {
 
@@ -103,6 +103,7 @@ void Epg::open(int adapter_number) {
       }
       // std::cout << size << "\t" << errno << std::endl;
     }
+    got_eit_ = false;
     // }
   }
 }
@@ -113,10 +114,11 @@ void Epg::operator()(const atsc::MasterGuideTable& mgt) {
 }
 
 void Epg::operator()(const atsc::EventInformationTable& eit) {
-  for (auto&& section: eit.sections()) {
-    std::cout << section.title_text();
-    throw std::exception();
+  for (auto&& section : eit.sections()) {
+    std::cout << section.title_text() << std::endl;
+    // throw std::exception();
   }
+  got_eit_ = true;
   // eit_tables_ = mgt.tables();
   // got_mgt_ = true;
 }

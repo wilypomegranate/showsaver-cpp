@@ -18,6 +18,7 @@ public:
 private:
   std::vector<atsc::PsipTable> eit_tables_;
   bool got_mgt_;
+  bool got_eit_;
   int demux_device_;
 };
 }
