@@ -5,25 +5,14 @@
 
 namespace atsc = showsaver::dvb::atsc;
 
-void load_test_data(std::vector<unsigned char>&buffer, const std::string& filename) {
-  std::ifstream ifs(filename.c_str(), std::ios::binary | std::ios::ate);
-  if (!ifs.good()) {
-    throw std::exception();
-  }
-  std::streamsize size = ifs.tellg();
-  ifs.seekg(0, std::ios::beg);
-  std::vector<char> tmp;
-  tmp.resize(size);
-  ifs.read(tmp.data(), size);
-  buffer = std::vector<unsigned char>(tmp.begin(), tmp.end());
-}
+unsigned char text[] = {0x01, 0x65, 0x6e, 0x67, 0x01, 0x00, 0x00, 0x10,
+                        0x50, 0x61, 0x69, 0x64, 0x20, 0x50, 0x72, 0x6f,
+                        0x67, 0x72, 0x61, 0x6d, 0x6d, 0x69, 0x6e, 0x67};
+unsigned int text_len = 24;
 
 TEST_CASE("MultipleStringStructure", "[MultipleStringStructure]") {
-  std::vector<unsigned char> buffer;
-  load_test_data(buffer, "/tmp/foo");
+  std::vector<unsigned char> buffer(text, text + text_len);
   atsc::MultipleStringStructure m;
-  // std::cout.write(reinterpret_cast<const char *>(buffer.data()), buffer.size());
-  // std::cout << std::endl;
   m.init(buffer);
   // REQUIRE(1 == 2);
 }
